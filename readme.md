@@ -10,6 +10,7 @@
 
 **User Manuals**
 
+0. 配置Python环境，执行`pip install -r requirements.txt`。
 1. 在程序运行目录新建一个文件`item.cvs`，格式如下：
 ```csv
 item   ,weight ,image
@@ -18,7 +19,7 @@ item   ,weight ,image
 王小三  ,     1 ,wx3.jpg
 ```
 2. 将图片置于`./assets/images/items`下。
-3. Just Enjoy.
+3. Just Enjoy。
 
 **注意事项**
 

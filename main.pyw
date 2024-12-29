@@ -2,11 +2,11 @@
 import pygame
 import sys
 from moviepy import VideoFileClip
+import easygui as eg
 from pygame.locals import *
 from config import *
 from lottery import *
 from ui import *
-pygame.init()
 
 rolling = False
 running = True
@@ -64,6 +64,20 @@ class InterFace():
                          170).draw(self.canvas, self.width*pos, self.height*0.66)
             Text(f"×{items[i].weight}", "HYWenHei-85W.ttf", COLOR.WHITE,
                  10).draw(self.canvas, self.width*pos, self.height*0.66)
+        for i in range(n,10):
+            pos = RESULTCARD_POSX[i]
+            Image("resultcard-bg.webp").draw(self.canvas,
+                                             self.width*pos, self.height*0.45)
+            Image("placeholder-face.webp", GLOBAL_RATIO*0.8).draw(self.canvas,
+                                                                  self.width*pos, self.height*0.45)
+            ColorSurface(COLOR.BLACK, 171*GLOBAL_RATIO, 80*GLOBAL_RATIO,
+                         170).draw(self.canvas, self.width*pos, self.height*0.6)
+            Text("这里没人", "HYWenHei-85W.ttf", COLOR.WHITE,
+                 20).draw(self.canvas, self.width*pos, self.height*0.6)
+            ColorSurface(COLOR.BLACK, 171*GLOBAL_RATIO, 40*GLOBAL_RATIO,
+                         170).draw(self.canvas, self.width*pos, self.height*0.66)
+            Text(f"只抽了{n}人哦", "HYWenHei-85W.ttf", COLOR.WHITE,
+                 10).draw(self.canvas, self.width*pos, self.height*0.66)
 
     def play_gacha_audio(self):
         pygame.mixer.init()
@@ -110,12 +124,14 @@ class InterFace():
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     roll_button.handle_event(self.on_roll_button_clicked)
+                    config_button.handle_event(self.on_config_button_clicked)
                     continue
             pygame.time.delay(10)
             pygame.display.update()
 
     def on_config_button_clicked(self):
-        return
+        global n
+        n = int(eg.integerbox("设置抽取人数","Settings",10,1,10))
 
     def on_roll_button_clicked(self):
         global rolling
@@ -131,5 +147,11 @@ class InterFace():
 
 
 if __name__ == '__main__':
-    scene = InterFace()
-    scene.main_interface()
+    try:
+        if not os.path.exists('item.csv'):
+            print("Namelist Required. Exiting.")
+            sys.exit()
+        scene = InterFace()
+        scene.main_interface()
+    except:
+        eg.exceptionbox("Error orrured. Program is exiting.", "Error")

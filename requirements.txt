@@ -1,4 +1,6 @@
 pygame
 moviepy
+easygui
 opencv-python
 Pillow
+pyinstaller

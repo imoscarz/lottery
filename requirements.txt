@@ -1,0 +1,4 @@
+pygame
+moviepy
+opencv-python
+Pillow

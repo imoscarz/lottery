@@ -1,6 +1,7 @@
 # coding:utf-8
 import pygame
 import sys
+import os
 from moviepy import VideoFileClip
 import easygui as eg
 from pygame.locals import *
@@ -16,7 +17,7 @@ n = 10
 class InterFace():
     def __init__(self):
         pygame.init()
-        game_icon = pygame.image.load('assets/images/icon.png')
+        game_icon = pygame.image.load(get_path('assets/images/icon.png'))
         game_caption = 'Yet Another Lottery for C10'
         pygame.display.set_icon(game_icon)
         pygame.display.set_caption(game_caption)
@@ -81,18 +82,18 @@ class InterFace():
 
     def play_gacha_audio(self):
         pygame.mixer.init()
-        pygame.mixer.music.load("./assets/audios/zzz-gacha.mp3")
+        pygame.mixer.music.load(get_path("./assets/audios/zzz-gacha.mp3"))
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play()
 
     def play_gacha_video(self):
-        movie = VideoFileClip("./assets/videos/gacha.mp4")
+        movie = VideoFileClip(get_path("./assets/videos/gacha.mp4"))
         frames = movie.iter_frames()
         clock = pygame.time.Clock()
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    return
+                    sys.exit()
             frame = next(frames, None)
             if frame is None:
                 return
@@ -153,5 +154,5 @@ if __name__ == '__main__':
             sys.exit()
         scene = InterFace()
         scene.main_interface()
-    except:
+    except not SystemExit:
         eg.exceptionbox("Error orrured. Program is exiting.", "Error")

@@ -1,7 +1,16 @@
 import pygame
 import sys
+import os
 from pygame.locals import *
 from config import *
+
+
+def get_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath('.')
+    return os.path.normpath(os.path.join(base_path,relative_path))
 
 
 class Text:
@@ -14,7 +23,7 @@ class Text:
         """
         self.text = text
         self.color = color
-        self.font_type = f'assets/fonts/{font_name}'
+        self.font_type = get_path(f'assets/fonts/{font_name}')
         self.font_size = font_size
         font = pygame.font.Font(self.font_type, self.font_size)
         self.text_image = font.render(
@@ -33,7 +42,7 @@ class Image:
         self.img_name = img_name
         self.ratio = ratio
         self.image_original = pygame.image.load(
-            f'assets/images/{self.img_name}').convert_alpha()
+            get_path(f'assets/images/{self.img_name}')).convert_alpha()
         self.image_width = self.image_original.get_width()
         self.image_height = self.image_original.get_height()
 
@@ -54,7 +63,7 @@ class ImageFixed:
     def __init__(self, img_name, width: int, height: int):
         self.img_name = img_name
         self.image_original = pygame.image.load(
-            f'assets/images/{self.img_name}').convert_alpha()
+            get_path(f'assets/images/{self.img_name}')).convert_alpha()
         self.image_width = self.image_original.get_width()
         self.image_height = self.image_original.get_height()
         self.ratio = max(width / self.image_width, height / self.image_height)
